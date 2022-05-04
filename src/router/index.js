@@ -11,20 +11,25 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/members',
-    name: 'members',
-    component: () => import('@/views/MembersView.vue'),
+    path: '/admin',
+    name: 'admin',
+    component: () => import('@/views/AdminView.vue'),
   },
   {
-    path: '/custom',
-    name: 'custom',
-    component: () => import('@/views/CustomView.vue'),
+    path: '/customer',
+    name: 'customer',
+    component: () => import('@/views/CustomerView.vue'),
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/LogInView.vue'),
   },
 ];
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: `${process.env.BASE_URL}/#/`,
   routes,
 });
 
