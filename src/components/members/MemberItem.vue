@@ -18,11 +18,6 @@
       <p class="memberItem__ctr">{{ parentData.location.country }}</p>
       <p class="memberItem__city">{{ parentData.location.city }}</p>
     </div>
-    <!-- <member-modal
-      v-if="isShowModal"
-      :parent-data="parentData"
-      @closeModal="isShowModal = false"
-    /> -->
     <Modal
       v-if="isShowModal"
       :parent-index="0"
@@ -33,7 +28,6 @@
 </template>
 <script>
 import Modal from '../modal/Modal.vue';
-// import MemberModal from './MemberModal.vue';
 
 export default {
   name: 'member-item',
@@ -46,7 +40,6 @@ export default {
     };
   },
   components: {
-    // MemberModal,
     Modal,
   },
   methods: {

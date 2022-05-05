@@ -4,7 +4,7 @@
       <img src="@/assets/logo.png" alt="F2E 前端開發" class="logo__img" />
     </h1>
     <nav class="nav">
-      <router-link class="nav__link" to="/">首頁</router-link>
+      <router-link class="nav__link" to="/" exact>首頁</router-link>
       <router-link class="nav__link" to="/admin">會員列表</router-link>
       <router-link class="nav__link" to="/customer">自選清單</router-link>
     </nav>
