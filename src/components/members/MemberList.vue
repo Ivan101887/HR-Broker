@@ -24,9 +24,11 @@ export default {
   .memberLs {
     display: grid;
     grid: {
-      template-columns: repeat(8, 12.5%);
-      column-gap: 15px;
-      row-gap: 15px;
+      template-columns: repeat(8, 1fr);
+    }
+    margin: {
+      left: -15px;
+      right: -15px;
     }
   }
 </style>
