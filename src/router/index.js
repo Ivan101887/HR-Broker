@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
+import store from '@/store/index';
 
 Vue.use(VueRouter);
 
@@ -13,23 +14,60 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
+    meta: { requiresAuth: true },
+    beforeEnter: (to, from, next) => {
+      const { isAuthenticated } = store.getters;
+      if (!isAuthenticated) {
+        next('/login');
+      } else {
+        next();
+      }
+    },
     component: () => import('@/views/AdminView.vue'),
   },
   {
     path: '/customer',
     name: 'customer',
+    meta: { requiresAuth: true },
+    beforeEnter: (to, from, next) => {
+      const { isAuthenticated } = store.getters;
+      const { customList } = store.getters;
+      if (!isAuthenticated) {
+        next('/login');
+      } else {
+        next();
+      }
+      if (!customList.length) {
+        next('/');
+      } else {
+        next();
+      }
+    },
     component: () => import('@/views/CustomerView.vue'),
   },
   {
     path: '/login',
     name: 'login',
+    beforeEnter: (to, from, next) => {
+      const { isAuthenticated } = store.getters;
+      console.log(isAuthenticated);
+      if (isAuthenticated) {
+        next('/');
+      } else {
+        next();
+      }
+    },
     component: () => import('@/views/LogInView.vue'),
+  },
+  {
+    path: '/*',
+    redirect: '/',
   },
 ];
 
 const router = new VueRouter({
-  mode: 'history',
-  base: `${process.env.BASE_URL}/#/`,
+  mode: 'hash',
+  base: process.env.BASE_URL,
   routes,
 });
 

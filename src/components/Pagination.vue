@@ -75,39 +75,4 @@ export default {
       }
     }
   }
-  // .page {
-  //   margin: {
-  //     left: 23px;
-  //   }
-  //   &__btn {
-  //     width: 100%;
-  //     display: block;
-  //     margin: {
-  //       top: 6px;
-  //       bottom: 6px;
-  //     }
-  //     border: 0;
-  //     background: {
-  //       color: transparent;
-  //     }
-  //     cursor: pointer;
-  //     font: {
-  //       size: 15px;
-  //     }
-  //     color: #888;
-  //     &:hover {
-  //       color: #666;
-  //     }
-  //     &:disabled {
-  //       cursor: default;
-  //       color: #666;
-  //       font: {
-  //         weight: 600;
-  //       }
-  //       border: {
-  //         right: 3px solid #0077b5;
-  //       }
-  //     }
-  //   }
-  // }
 </style>

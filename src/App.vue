@@ -1,20 +1,25 @@
 <template>
   <div id="app">
-    <TheHeader v-if="!isShow" @switch="isShow = true" />
-    <router-view :parent-data="sortData(data)[index]"> </router-view>
+    <TheHeader />
+    <router-view
+      :parent-data="sortData(data)[index]"
+      :parent-country="countryArr"
+      :parent-gender="genArr"
+    >
+    </router-view>
     <Pagination
       v-if="data.length"
       :parent-len="Math.ceil(totalLen / perPage)"
       :parent-index="index"
       @update="updatePageIndex"
     />
-    <the-loader v-if="isLoading"/>
+    <the-loader v-if="isLoading" />
   </div>
 </template>
 <script>
 import TheHeader from '@/components/TheHeader.vue';
-import Pagination from './components/Pagination.vue';
-import TheLoader from './components/TheLoader.vue';
+import Pagination from '@/components/Pagination.vue';
+import TheLoader from '@/components/TheLoader.vue';
 
 export default {
   name: 'app',
@@ -40,13 +45,11 @@ export default {
     };
   },
   computed: {
-    cityArr() {
-      return [...new Set(this.data.map((item) => item.City))];
+    countryArr() {
+      return [...new Set(this.data.map((item) => item.location.country))];
     },
-    townArr() {
-      return [...new Set(
-        this.data.filter((item) => item.City === this.now.city).map((item) => item.Town),
-      )];
+    genArr() {
+      return [...new Set(this.data.map((item) => item.gender))];
     },
     SelectedData() {
       if (this.now.city) {
@@ -99,6 +102,9 @@ export default {
         arr[index].push(item);
       });
       return arr;
+    },
+    submitAcc() {
+      this.
     },
   },
 };
