@@ -1,16 +1,34 @@
 <template>
   <div class="login">
-    <input type="submit" value="登入" @click="login" />
+    <div class="test">
+      <p class="test__email">帳號: reginald.gibson@example.com</p>
+      <p class="test__pwd">密碼: 20202020</p>
+    </div>
+    <logInBox @authenticate="setIsSuccess" />
+    <div class="loginStatus bg-success" v-if="isSuccess === true">登入成功</div>
+    <div class="loginStatus bg-danger" v-if="isSuccess === false">
+      帳號密碼有誤，請重新輸入
+    </div>
   </div>
 </template>
 <script>
+import LogInBox from '../components/LogInBox.vue';
+
 export default {
   inheritAttrs: false,
   name: 'log-in-view',
+  data() {
+    return {
+      isSuccess: '',
+    };
+  },
+  components: {
+    LogInBox,
+  },
   methods: {
-    login() {
-      this.$store.dispatch('setAuthenticated', true);
-      this.$router.replace('/');
+    setIsSuccess(val) {
+      this.isSuccess = val;
+      setTimeout(() => { this.isSuccess = null; }, 3000);
     },
   },
 };
@@ -29,5 +47,30 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .test {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+  }
+  .loginStatus {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: 0;
+    padding: 15px;
+    color: #fff;
+  }
+  .bg {
+    &-danger {
+      background: {
+        color: #dc3545;
+      }
+    }
+    &-success {
+      background: {
+        color: #198753;
+      }
+    }
   }
 </style>

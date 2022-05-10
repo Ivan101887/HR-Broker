@@ -8,10 +8,14 @@ export default new Vuex.Store({
   state: {
     customList: [],
     isAuthenticated: false,
+    currCountry: '',
+    currGender: '',
   },
   getters: {
     customList: (state) => state.customList,
     isAuthenticated: (state) => state.isAuthenticated,
+    currCountry: (state) => state.currCountry,
+    currGender: (state) => state.currGender,
   },
   mutations: {
     ADD_MEMBER(state, member) {
@@ -28,7 +32,6 @@ export default new Vuex.Store({
     setAuthenticated(context, boolean) {
       context.commit('SET_AUTHENTICATED', boolean);
     },
-
   },
   modules: {
   },

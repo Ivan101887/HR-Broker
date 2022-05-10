@@ -2,9 +2,10 @@
   <div id="app">
     <TheHeader />
     <router-view
-      :parent-data="sortData(data)[index]"
+      :parent-data="selectedData[index]"
       :parent-country="countryArr"
       :parent-gender="genArr"
+      @update="updateNow"
     >
     </router-view>
     <Pagination
@@ -42,6 +43,10 @@ export default {
       index: 0,
       perPage: 20,
       totalLen: 0,
+      now: {
+        country: '',
+        gender: '',
+      },
     };
   },
   computed: {
@@ -51,16 +56,16 @@ export default {
     genArr() {
       return [...new Set(this.data.map((item) => item.gender))];
     },
-    SelectedData() {
-      if (this.now.city) {
-        if (this.now.town) {
+    selectedData() {
+      if (this.now.country) {
+        if (this.now.gender) {
           return this.sortData(
             this.data
-              .filter((item) => item.City === this.now.city)
-              .filter((item) => item.Town === this.now.town),
+              .filter((item) => item.country === this.now.country)
+              .filter((item) => item.Town === this.now.gender),
           );
         }
-        return this.sortData(this.data.filter((item) => item.City === this.now.city));
+        return this.sortData(this.data.filter((item) => item.country === this.now.country));
       }
       return this.sortData(this.data);
     },
@@ -71,8 +76,7 @@ export default {
         const config = {
           params: {
             results: 150,
-            page: 1,
-            seed: 'myRandomUUser',
+            seed: 'myRandomUser',
           },
         };
         const url = 'https://randomuser.me/api/';
@@ -86,12 +90,6 @@ export default {
     updatePageIndex(val) {
       this.index = val;
     },
-    updateCity(val) {
-      this.now.city = val;
-    },
-    updateTown(val) {
-      this.now.town = val;
-    },
     sortData(array) {
       const arr = [];
       array.forEach((item, i) => {
@@ -103,8 +101,9 @@ export default {
       });
       return arr;
     },
-    submitAcc() {
-      this.
+    updateSelectOpt(val) {
+      [this.now.country, this.now.gender] = val;
+      this.index = 0;
     },
   },
 };

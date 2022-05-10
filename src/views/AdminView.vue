@@ -1,8 +1,25 @@
 <template>
   <main class="main container mx-auto">
     <h1 class="title">會員列表</h1>
-    <FilterSelect @change="change" :parent-data="parentCountry" parent-name="國家" />
-    <FilterSelect @change="change" :parent-data="parentGender" parent-name="性別" />
+    <div class="main__head">
+      <form class="form">
+        <FilterSelect
+          v-on="$listeners"
+          :parent-data="parentCountry"
+          parent-name="國家"
+          @update="updateCountry"
+        />
+        <FilterSelect
+          v-on="$listeners"
+          :parent-data="parentGender"
+          parent-name="性別"
+          @update="updateGender"
+        />
+      </form>
+      <p class="number">共: {{parentData.length}} 人</p>
+    </div>
+    <section class="main__body">
+    </section>
   </main>
 </template>
 <script>
@@ -12,12 +29,28 @@ export default {
   inheritAttrs: false,
   name: 'admin-view',
   props: {
+    parentData: Array,
     parentCountry: Array,
     parentGender: Array,
   },
+  data() {
+    return {
+      nowOptions: ['', ''],
+    };
+  },
   components: { FilterSelect },
   methods: {
-    change() {},
+    updateCountry(val) {
+      this.nowOptions[0] = val;
+    },
+    updateGender(val) {
+      this.nowOptions[1] = val;
+    },
+  },
+  watch: {
+    nowOptions(newVal) {
+      this.$emit('update', newVal);
+    },
   },
 };
 </script>
@@ -33,5 +66,9 @@ export default {
       top: 30px;
       bottom: 30px;
     }
+  }
+  .main__head {
+    display: flex;
+    justify-content: space-between;
   }
 </style>

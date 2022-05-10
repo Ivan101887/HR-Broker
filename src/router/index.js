@@ -50,9 +50,8 @@ const routes = [
     name: 'login',
     beforeEnter: (to, from, next) => {
       const { isAuthenticated } = store.getters;
-      console.log(isAuthenticated);
       if (isAuthenticated) {
-        next('/');
+        next('/admin');
       } else {
         next();
       }
