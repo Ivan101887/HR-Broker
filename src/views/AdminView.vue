@@ -16,40 +16,48 @@
           @update="updateGender"
         />
       </form>
-      <p class="number">共: {{parentData.length}} 人</p>
+      <p class="number">共: {{ parentLen }} 人</p>
     </div>
     <section class="main__body">
+      <member-table parent-name="自選清單" v-bind="$attrs" />
     </section>
   </main>
 </template>
 <script>
 import FilterSelect from '@/components/FilterSelect.vue';
+import MemberTable from '../components/table/MemberTable.vue';
 
 export default {
   inheritAttrs: false,
   name: 'admin-view',
   props: {
-    parentData: Array,
+    parentLen: Number,
     parentCountry: Array,
     parentGender: Array,
   },
   data() {
     return {
-      nowOptions: ['', ''],
+      nowOptions: {
+        country: '',
+        gender: '',
+      },
     };
   },
-  components: { FilterSelect },
+  components: { FilterSelect, MemberTable },
   methods: {
     updateCountry(val) {
-      this.nowOptions[0] = val;
+      this.nowOptions.country = val;
     },
     updateGender(val) {
-      this.nowOptions[1] = val;
+      this.nowOptions.gender = val;
     },
   },
   watch: {
-    nowOptions(newVal) {
-      this.$emit('update', newVal);
+    nowOptions: {
+      handler() {
+        this.$emit('update', this.nowOptions.country, this.nowOptions.gender);
+      },
+      deep: true,
     },
   },
 };
@@ -70,5 +78,6 @@ export default {
   .main__head {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 </style>

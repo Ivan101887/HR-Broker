@@ -7,30 +7,29 @@ export default new Vuex.Store({
   strict: true,
   state: {
     customList: [],
-    isAuthenticated: false,
-    currCountry: '',
-    currGender: '',
+    isAuthenticated: document.cookie.includes('isLogIn'),
   },
   getters: {
     customList: (state) => state.customList,
     isAuthenticated: (state) => state.isAuthenticated,
-    currCountry: (state) => state.currCountry,
-    currGender: (state) => state.currGender,
   },
   mutations: {
-    ADD_MEMBER(state, member) {
-      state.customList.push(member);
+    ADD_MEMBER(state, id) {
+      state.customList.push(id);
     },
-    SET_AUTHENTICATED(state, boolean) {
-      state.isAuthenticated = boolean;
+    REMOVE_MEMBER(state, id) {
+      const index = state.customList.indexOf(id);
+      if (index !== -1) {
+        state.customList.splice(index, 1);
+      }
     },
   },
   actions: {
-    addMember(context, member) {
-      context.commit('ADD_MEMBER', member);
+    addMember(context, id) {
+      context.commit('ADD_MEMBER', id);
     },
-    setAuthenticated(context, boolean) {
-      context.commit('SET_AUTHENTICATED', boolean);
+    removeMember(context, id) {
+      context.commit('REMOVE_MEMBER', id);
     },
   },
   modules: {

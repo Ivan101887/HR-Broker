@@ -15,10 +15,10 @@ const routes = [
     path: '/admin',
     name: 'admin',
     meta: { requiresAuth: true },
-    beforeEnter: (to, from, next) => {
+    beforeEnter: async (to, from, next) => {
       const { isAuthenticated } = store.getters;
       if (!isAuthenticated) {
-        next('/login');
+        next('/');
       } else {
         next();
       }

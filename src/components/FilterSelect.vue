@@ -1,7 +1,7 @@
 <template>
   <select
     class="form__sel"
-    @change="$emit('update', $event.target.val)"
+    @change="$emit('update', $event.target.value)"
     :disabled="!parentData"
   >
     <option class="form__option" value="" selected>全部{{ parentName }}</option>

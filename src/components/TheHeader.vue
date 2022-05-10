@@ -34,9 +34,12 @@ export default {
   methods: {
     clickLog(e) {
       if (this.isAuthenticated) {
-        console.log(this.isAuthenticated);
-        this.$store.dispatch('setAuthenticated', false);
-        this.$router.replace('/');
+        document.cookie = 'isLogIn= ; expires = Thu, 01 Jan 1970 00:00:00 GMT';
+        if (this.$router.currentRoute.fullPath !== '/') {
+          this.$router.replace('/');
+        } else {
+          window.location.reload(true);
+        }
         e.preventDefault();
       }
     },

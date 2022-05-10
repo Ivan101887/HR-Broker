@@ -3,14 +3,15 @@
     <TheHeader />
     <router-view
       :parent-data="selectedData[index]"
+      :parent-len="data.length"
       :parent-country="countryArr"
       :parent-gender="genArr"
       @update="updateNow"
     >
     </router-view>
     <Pagination
-      v-if="data.length"
-      :parent-len="Math.ceil(totalLen / perPage)"
+      v-if="selectedData.length"
+      :parent-len="selectedData.length"
       :parent-index="index"
       @update="updatePageIndex"
     />
@@ -21,6 +22,7 @@
 import TheHeader from '@/components/TheHeader.vue';
 import Pagination from '@/components/Pagination.vue';
 import TheLoader from '@/components/TheLoader.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'app',
@@ -42,7 +44,6 @@ export default {
       data: [],
       index: 0,
       perPage: 20,
-      totalLen: 0,
       now: {
         country: '',
         gender: '',
@@ -56,16 +57,38 @@ export default {
     genArr() {
       return [...new Set(this.data.map((item) => item.gender))];
     },
+    ...mapGetters({
+      customIds: 'customList',
+    }),
+    customList() {
+      return this.customIds.map((customItem) => this.data.find((item) => item.name === customItem));
+    },
     selectedData() {
       if (this.now.country) {
         if (this.now.gender) {
           return this.sortData(
             this.data
-              .filter((item) => item.country === this.now.country)
-              .filter((item) => item.Town === this.now.gender),
+              .filter((item) => item.location.country === this.now.country)
+              .filter((item) => item.gender === this.now.gender),
           );
         }
-        return this.sortData(this.data.filter((item) => item.country === this.now.country));
+        return this.sortData(
+          this.data
+            .filter((item) => item.location.country === this.now.country),
+        );
+      }
+      if (this.now.gender) {
+        if (this.now.country) {
+          return this.sortData(
+            this.data
+              .filter((item) => item.location.country === this.now.country)
+              .filter((item) => item.gender === this.now.gender),
+          );
+        }
+        return this.sortData(
+          this.data
+            .filter((item) => item.gender === this.now.gender),
+        );
       }
       return this.sortData(this.data);
     },
@@ -101,8 +124,9 @@ export default {
       });
       return arr;
     },
-    updateSelectOpt(val) {
-      [this.now.country, this.now.gender] = val;
+    updateNow(country, gender) {
+      console.log(country, gender);
+      this.now = { country, gender };
       this.index = 0;
     },
   },

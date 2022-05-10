@@ -62,16 +62,23 @@ export default {
       const url = 'https://randomuser.me/api/';
       try {
         const res = await this.$http.get(url, config);
-        const results = res.data.results[0];
+        const results = await res.data.results[0];
         if (this.email === results.email && this.password === results.login.password) {
           this.$emit('authenticate', true);
-          this.$store.dispatch('setAuthenticated', true);
-          setTimeout(() => { this.$router.replace('/admin'); }, 3000);
+          setTimeout(() => {
+            this.$router.replace('/');
+          }, 1000);
         } else {
           this.$emit('authenticate', false);
           [this.email, this.password] = ['', ''];
         }
+        this.recordTime();
       } catch (e) { console.log(e); }
+    },
+    recordTime() {
+      const now = new Date();
+      const exp = new Date(now.setDate(now.getDate() + 1));
+      document.cookie = `isLogIn = true; expires = ${exp.toUTCString()}`;
     },
   },
 };
