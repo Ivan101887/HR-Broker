@@ -65,14 +65,15 @@ export default {
         const results = await res.data.results[0];
         if (this.email === results.email && this.password === results.login.password) {
           this.$emit('authenticate', true);
+          this.recordTime();
           setTimeout(() => {
             this.$router.replace('/');
-          }, 1000);
+          }, 2000);
+          window.location.reload(true);
         } else {
           this.$emit('authenticate', false);
           [this.email, this.password] = ['', ''];
         }
-        this.recordTime();
       } catch (e) { console.log(e); }
     },
     recordTime() {

@@ -2,33 +2,29 @@
   <div id="app">
     <TheHeader />
     <router-view
-      :parent-data="selectedData[index]"
-      :parent-len="data.length"
+      :parent-all-data="data"
+      :parent-size="perPage"
+      :parent-data="sortData(selectedData)"
+      :parent-len="selectedData.length"
       :parent-country="countryArr"
       :parent-gender="genArr"
+      :parent-index="index"
       @update="updateNow"
+      @updateIndex="updateIndex"
     >
     </router-view>
-    <Pagination
-      v-if="selectedData.length"
-      :parent-len="selectedData.length"
-      :parent-index="index"
-      @update="updatePageIndex"
-    />
+
     <the-loader v-if="isLoading" />
   </div>
 </template>
 <script>
 import TheHeader from '@/components/TheHeader.vue';
-import Pagination from '@/components/Pagination.vue';
 import TheLoader from '@/components/TheLoader.vue';
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'app',
   components: {
     TheHeader,
-    Pagination,
     TheLoader,
   },
   async created() {
@@ -57,40 +53,26 @@ export default {
     genArr() {
       return [...new Set(this.data.map((item) => item.gender))];
     },
-    ...mapGetters({
-      customIds: 'customList',
-    }),
-    customList() {
-      return this.customIds.map((customItem) => this.data.find((item) => item.name === customItem));
-    },
     selectedData() {
       if (this.now.country) {
         if (this.now.gender) {
-          return this.sortData(
-            this.data
-              .filter((item) => item.location.country === this.now.country)
-              .filter((item) => item.gender === this.now.gender),
-          );
+          return this.data
+            .filter((item) => item.location.country === this.now.country)
+            .filter((item) => item.gender === this.now.gender);
         }
-        return this.sortData(
-          this.data
-            .filter((item) => item.location.country === this.now.country),
-        );
+        return this.data
+          .filter((item) => item.location.country === this.now.country);
       }
       if (this.now.gender) {
         if (this.now.country) {
-          return this.sortData(
-            this.data
-              .filter((item) => item.location.country === this.now.country)
-              .filter((item) => item.gender === this.now.gender),
-          );
+          return this.data
+            .filter((item) => item.location.country === this.now.country)
+            .filter((item) => item.gender === this.now.gender);
         }
-        return this.sortData(
-          this.data
-            .filter((item) => item.gender === this.now.gender),
-        );
+        return this.data
+          .filter((item) => item.gender === this.now.gender);
       }
-      return this.sortData(this.data);
+      return this.data;
     },
   },
   methods: {
@@ -110,7 +92,7 @@ export default {
         console.log(e);
       }
     },
-    updatePageIndex(val) {
+    updateIndex(val) {
       this.index = val;
     },
     sortData(array) {
@@ -125,7 +107,6 @@ export default {
       return arr;
     },
     updateNow(country, gender) {
-      console.log(country, gender);
       this.now = { country, gender };
       this.index = 0;
     },

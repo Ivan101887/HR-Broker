@@ -5,7 +5,7 @@
         <input
           type="checkbox"
           id="TblTd"
-          :checked="customList.includes(parentData.id.value)"
+          :checked="customList.includes(parentData.login.uuid)"
           @click="clickCheckBox"
         />
       </label>
@@ -28,7 +28,12 @@
     <td class="tbl__td text-ce">{{ parentData.location.country }}</td>
     <td class="tbl__td">{{ parentData.email }}</td>
     <td class="tbl__td pr-20">
-      <input type="button" class="btn btn-danger" value="編輯" />
+      <input
+        type="button"
+        @click="$emit('update', parentIndex)"
+        class="btn btn-danger"
+        value="編輯"
+      />
     </td>
   </tr>
 </template>
@@ -39,25 +44,33 @@ export default {
   name: 'member-tbl-item',
   props: {
     parentData: Object,
+    parentIndex: Number,
   },
   methods: {
     clickCheckBox(e) {
       if (e.target.checked) {
-        this.$store.dispatch('addMember', this.parentData.id.value);
+        this.$store.dispatch('addMember', this.parentData.login.uuid);
       } else {
-        this.$store.dispatch('removeMember', this.parentData.id.value);
+        this.$store.dispatch('removeMember', this.parentData.login.uuid);
       }
     },
   },
-  computed: [
+  computed: {
     ...mapGetters({
       customList: 'customList',
     }),
-  ],
+  },
 };
 </script>
 <style lang="scss" scoped>
   .tbl {
+    &__tr {
+      &:hover {
+        background: {
+          color: #fff4d2;
+        }
+      }
+    }
     &__imgCntr {
       max-width: 50px;
     }

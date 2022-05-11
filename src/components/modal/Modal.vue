@@ -1,11 +1,11 @@
 <template>
   <div
     class="modal"
-    @click.stop="$emit('closeModal')"
+    @click.stop.self="$emit('closeModal')"
     @keyup.esc="$emit('closeModal')"
   >
     <keep-alive>
-      <component :is="switchCurrComponent" v-bind="$attrs" />
+      <component :is="switchCurrComponent" v-bind="$attrs" v-on="$listeners" />
     </keep-alive>
   </div>
 </template>
@@ -17,33 +17,26 @@ export default {
   inheritAttrs: false,
   name: 'modal',
   props: {
-    parentIndex: String,
+    parentIndex: Number,
   },
   components: {
     ModalModify,
     ModalProfile,
   },
   created() {
-    window.addEventListener('keyup', () => {
-      console.log('close');
-      this.$emit('closeModal');
+    window.addEventListener('keyup', (e) => {
+      if (e.keyCode === 27) { this.$emit('closeModal'); }
     });
     document.querySelector('body').style.overflow = 'hidden';
   },
   data() {
     return {
-      currComponent: 'modal-profile',
+      currComponent: ['modal-profile', 'modal-modify'],
     };
   },
   computed: {
     switchCurrComponent() {
-      return this.currComponent;
-    },
-  },
-  watch: {
-    parentComponent(nowIndex) {
-      const component = ['modal-profile', 'modal-modify'];
-      this.currComponent = component[nowIndex];
+      return this.currComponent[this.parentIndex];
     },
   },
 };
@@ -57,7 +50,7 @@ export default {
     justify-content: center;
     align-items: center;
     background: {
-      color: rgba(0, 0, 0, 0.5);
+      color: rgba(0, 0, 0, 0.788);
     }
     z-index: 10;
     width: 100vw;

@@ -15,16 +15,18 @@
     </thead>
     <tbody class="tbl__tbody">
       <member-tbl-item
-        v-for="(item, index) in parentData"
+        v-for="(item, i) in parentData"
         :key="item.id.value"
-        :class="{ 'bg-cancel': index % 2 === 0 }"
+        :class="{ 'bg-cancel': i % 2 === 0 }"
         :parent-data="item"
+        v-bind="$attrs"
+        v-on="$listeners"
       />
     </tbody>
   </table>
 </template>
 <script>
-import MemberTblItem from './MemberTblItem.vue';
+import MemberTblItem from '@/components/table/MemberTblItem.vue';
 
 export default {
   components: { MemberTblItem },

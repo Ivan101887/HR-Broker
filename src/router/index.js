@@ -18,7 +18,7 @@ const routes = [
     beforeEnter: async (to, from, next) => {
       const { isAuthenticated } = store.getters;
       if (!isAuthenticated) {
-        next('/');
+        next('/login');
       } else {
         next();
       }
