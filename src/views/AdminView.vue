@@ -21,21 +21,21 @@
     <section class="main__body">
       <member-table
         parent-name="自選清單"
-        :parent-data="parentData[index]"
+        :parent-data="parentListData[index]"
         :parent-index="modalIndex"
         @update="updateIndex"
       />
     </section>
     <Pagination
-      v-if="parentData.length"
-      :parent-len="parentData.length"
+      v-if="parentListData.length"
+      :parent-len="parentListData.length"
       :parent-index="index"
       @update="updatePageIndex"
     />
     <Modal
       v-if="isShowModal"
       :parent-index="1"
-      :parent-data="parentData[index][modalIndex]"
+      :parent-data="parentListData[index][modalIndex]"
       @closeModal="closeModal"
     />
   </main>
@@ -51,7 +51,7 @@ export default {
   name: 'admin-view',
   props: {
     parentLen: Number,
-    parentData: Array,
+    parentListData: Array,
     parentCountry: Array,
     parentGender: Array,
     parentIndex: Number,

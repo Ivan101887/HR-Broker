@@ -3,8 +3,9 @@
     <TheHeader />
     <router-view
       :parent-all-data="data"
-      :parent-size="perPage"
-      :parent-data="sortData(selectedData)"
+      :parent-size="listSize"
+      :parent-data="sortData(selectedData, perPage)"
+      :parent-list-data="sortData(selectedData, listSize)"
       :parent-len="selectedData.length"
       :parent-country="countryArr"
       :parent-gender="genArr"
@@ -40,6 +41,7 @@ export default {
       data: [],
       index: 0,
       perPage: 20,
+      listSize: 10,
       now: {
         country: '',
         gender: '',
@@ -95,13 +97,13 @@ export default {
     updateIndex(val) {
       this.index = val;
     },
-    sortData(array) {
+    sortData(array, size) {
       const arr = [];
       array.forEach((item, i) => {
-        if (i % this.perPage === 0) {
+        if (i % size === 0) {
           arr.push([]);
         }
-        const index = Math.floor(i / this.perPage);
+        const index = Math.floor(i / size);
         arr[index].push(item);
       });
       return arr;
