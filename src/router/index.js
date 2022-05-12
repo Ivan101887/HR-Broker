@@ -38,7 +38,7 @@ const routes = [
         next();
       }
       if (!customList.length) {
-        next('/');
+        next('/admin');
       } else {
         next();
       }

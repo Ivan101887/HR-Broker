@@ -52,6 +52,11 @@ export default {
         this.$store.dispatch('addMember', this.parentData.login.uuid);
       } else {
         this.$store.dispatch('removeMember', this.parentData.login.uuid);
+        if (!this.customList.length) {
+          if (this.$router.currentRoute.fullPath !== '/admin') {
+            this.$router.replace('/admin');
+          }
+        }
       }
     },
   },
