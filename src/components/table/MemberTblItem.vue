@@ -5,13 +5,14 @@
         <input
           type="checkbox"
           id="TblTd"
+          class="input"
           :checked="customList.includes(parentData.login.uuid)"
-          @click="clickCheckBox"
+          @click.self="clickCheckBox"
         />
       </label>
     </td>
     <td class="tbl__td text-ce">
-      <figure class="tbl__imgCntr">
+      <figure class="tbl__imgCntr p-10">
         <img
           :src="parentData.picture.thumbnail"
           :alt="parentData.name.first"
@@ -19,15 +20,15 @@
         />
       </figure>
     </td>
-    <td class="tbl__td">{{ parentData.login.username }}</td>
-    <td class="tbl__td">
+    <td class="tbl__td p-10">{{ parentData.login.username }}</td>
+    <td class="tbl__td p-10">
       {{ parentData.name.first }} {{ parentData.name.last }}
     </td>
-    <td class="tbl__td text-ce">{{ parentData.gender }}</td>
-    <td class="tbl__td text-ce">{{ parentData.registered.age }}</td>
-    <td class="tbl__td text-ce">{{ parentData.location.country }}</td>
+    <td class="tbl__td text-ce p-10">{{ parentData.gender }}</td>
+    <td class="tbl__td text-ce p-10">{{ parentData.registered.age }}</td>
+    <td class="tbl__td text-ce p-10">{{ parentData.location.country }}</td>
     <td class="tbl__td">{{ parentData.email }}</td>
-    <td class="tbl__td pr-20">
+    <td class="tbl__td p-10 text-ce">
       <input
         type="button"
         @click="$emit('update', parentIndex)"
@@ -46,18 +47,36 @@ export default {
     parentData: Object,
     parentIndex: Number,
   },
+  created() {
+    this.load();
+  },
   methods: {
     clickCheckBox(e) {
+      const array = this.customList;
       if (e.target.checked) {
-        this.$store.dispatch('addMember', this.parentData.login.uuid);
+        array.push(this.parentData.login.uuid);
+        localStorage.setItem('users', JSON.stringify(array));
+        this.$store.dispatch('setMember', array);
       } else {
-        this.$store.dispatch('removeMember', this.parentData.login.uuid);
+        const i = array.indexOf(this.parentData.login.uuid);
+        array.splice(i, 1);
+        localStorage.setItem('users', JSON.stringify(array));
+        this.$store.dispatch('setMember', array);
         if (!this.customList.length) {
           if (this.$router.currentRoute.fullPath !== '/admin') {
             this.$router.replace('/admin');
           }
         }
+        if (this.$router.currentRoute.fullPath !== '/admin') {
+          this.$emit('checkPage');
+        }
       }
+    },
+    load() {
+      let users = [];
+      if (!localStorage.getItem('users')) return;
+      users = [...JSON.parse(localStorage.getItem('users'))];
+      this.$store.dispatch('setMember', users);
     },
   },
   computed: {
@@ -85,10 +104,14 @@ export default {
       display: block;
     }
     &__td {
-      padding: 10px;
       vertical-align: middle;
       box-sizing: border-box;
     }
+  }
+  .input {
+    display: block;
+    width: 100px;
+    margin: 0;
   }
   .text {
     &-ce {
@@ -104,18 +127,16 @@ export default {
       size: 16px;
     }
     color: #fff;
-    padding: 8px 15px;
+    padding: 5px 15px;
     &-danger {
       background: {
         color: #dc3545;
       }
     }
   }
-  .pr {
-    &-20 {
-      padding: {
-        right: 20px;
-      }
+  .p {
+    &-10 {
+      padding: 10px;
     }
   }
 </style>

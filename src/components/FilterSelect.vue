@@ -3,7 +3,6 @@
     class="form__sel"
     @change="$emit('update', $event.target.value)"
     :disabled="!parentData"
-    v-model="select"
   >
     <option class="form__option" value="">全部{{ parentName }}</option>
     <option
@@ -22,12 +21,6 @@ export default {
   props: {
     parentName: String,
     parentData: Array,
-    parentSelect: String,
-  },
-  data() {
-    return {
-      select: this.parentSelect,
-    };
   },
 };
 </script>

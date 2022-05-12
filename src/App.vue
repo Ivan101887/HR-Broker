@@ -7,6 +7,7 @@
       :parent-data="sortData(selectedData, perPage)"
       :parent-list-data="sortData(selectedData, listSize)"
       :parent-len="selectedData.length"
+      :parent-total-len="data.length"
       :parent-country="countryArr"
       :parent-gender="genArr"
       :parent-index="index"
@@ -108,9 +109,9 @@ export default {
       });
       return arr;
     },
-    updateNow(country, gender) {
+    updateNow(country, gender, index) {
       this.now = { country, gender };
-      this.index = 0;
+      this.index = index;
     },
   },
 };

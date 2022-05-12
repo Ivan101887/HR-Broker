@@ -10,6 +10,12 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
+    beforeEnter: (to, from, next) => {
+      next();
+      if (from.fullPath === '/admin' || from.fullPath === '/customer') {
+        window.location.reload(true);
+      }
+    },
   },
   {
     path: '/admin',

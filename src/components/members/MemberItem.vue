@@ -13,6 +13,18 @@
       <h3 class="memberItem__name">
         {{ parentData.name.first }} {{ parentData.name.last }}
       </h3>
+      <div
+        :class="[
+          'icon',
+          parentData.gender === 'male' ? 'icon-peace' : 'icon-pink',
+        ]"
+      >
+        <font-awesome-icon
+          icon="fa-solid fa-person-dress"
+          v-if="parentData.gender === 'female'"
+        />
+        <font-awesome-icon icon="fa-solid fa-person" v-else />
+      </div>
     </figure>
     <div class="memberItem__loc">
       <p class="memberItem__ctr">{{ parentData.location.country }}</p>
@@ -87,6 +99,31 @@ export default {
       color: #aaa;
       margin: {
         top: 5px;
+      }
+    }
+    .icon {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      color: #fff;
+      font: {
+        size: 12px;
+      }
+      &-peace {
+        background: {
+          color: #34a2d1da;
+        }
+      }
+      &-pink {
+        background: {
+          color: #f272bdd8;
+        }
       }
     }
   }

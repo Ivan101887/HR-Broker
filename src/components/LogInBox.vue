@@ -29,12 +29,8 @@
     </label>
     <div class="group">
       <button type="submit" @click="login" class="btn btn-peace">送出</button>
-      <button
-        type="button"
-        @click="$router.replace('/')"
-        class="btn btn-outline"
-      >
-        取消
+      <button type="button" @click="clearInput" class="btn btn-outline">
+        清除
       </button>
     </div>
   </form>
@@ -60,21 +56,26 @@ export default {
         },
       };
       const url = 'https://randomuser.me/api/';
-      try {
-        const res = await this.$http.get(url, config);
-        const results = await res.data.results[0];
-        if (this.email === results.email && this.password === results.login.password) {
-          this.$emit('authenticate', true);
-          this.recordTime();
-          setTimeout(() => {
-            this.$router.replace('/');
-          }, 2000);
-          window.location.reload(true);
-        } else {
-          this.$emit('authenticate', false);
-          [this.email, this.password] = ['', ''];
-        }
-      } catch (e) { console.log(e); }
+      if (this.email !== '' && this.password !== '') {
+        console.log(888);
+        try {
+          const res = await this.$http.get(url, config);
+          const results = await res.data.results[0];
+          if (this.email === results.email && this.password === results.login.password) {
+            this.$emit('authenticate', true);
+            this.recordTime();
+            setTimeout(() => {
+              this.$router.replace('/');
+            }, 2000);
+            window.location.reload(true);
+          } else {
+            this.$emit('authenticate', false);
+          }
+        } catch (e) { console.log(e); }
+      }
+    },
+    clearInput() {
+      [this.email, this.password] = ['', ''];
     },
     recordTime() {
       const now = new Date();
@@ -140,7 +141,6 @@ export default {
       top: 15px;
     }
     border-radius: 3px;
-    overflow: hidden;
   }
   .btn {
     display: inline-block;
@@ -152,17 +152,25 @@ export default {
     font: {
       size: 16px;
     }
+    &:focus {
+      position: relative;
+      z-index: 1;
+      outline: none;
+      box-shadow: 0px 0px 0px 5px #2596c768;
+    }
     cursor: pointer;
     &-peace {
-      border: 1px solid #1d769c;
+      border: 1px solid #2597c7;
+      border-radius: 3px 0 0 3px;
       background: {
-        color: #1d769c;
+        color: #2597c7;
       }
       color: #fff;
     }
     &-outline {
-      color: #1d769c;
-      border: 1px solid #1d769c;
+      color: #2597c7;
+      border: 1px solid #2597c7;
+      border-radius: 0 3px 3px 0;
       background: {
         color: transparent;
       }

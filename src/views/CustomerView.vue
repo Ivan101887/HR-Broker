@@ -6,17 +6,15 @@
         <FilterSelect
           :parent-data="countryArr"
           parent-name="國家"
-          :parent-select="nowOptions.country"
           @update="updateCountry"
         />
         <FilterSelect
           :parent-data="genArr"
           parent-name="性別"
-          :parent-select="nowOptions.gender"
           @update="updateGender"
         />
       </form>
-      <p class="number">共: {{ selectedData.length }} 人</p>
+      <p class="number">共: {{ customList.length }} 人</p>
     </div>
     <section class="main__body">
       <MemberTable
@@ -24,11 +22,12 @@
         :parent-data="sortData(selectedData)[index]"
         :parent-index="modalIndex"
         @update="updateIndex"
+        @checkPage="check"
       />
     </section>
     <Pagination
-      v-if="customList.length"
-      :parent-len="Math.ceil(customList.length / parentSize)"
+      v-if="selectedData.length > parentSize"
+      :parent-len="sortData(selectedData).length"
       :parent-index="index"
       @update="updatePageIndex"
     />
@@ -64,6 +63,9 @@ export default {
       modalIndex: 0,
       isShowModal: false,
     };
+  },
+  components: {
+    FilterSelect, MemberTable, Pagination, Modal,
   },
   computed: {
     ...mapGetters({
@@ -102,8 +104,13 @@ export default {
       return this.customList;
     },
   },
-  components: {
-    FilterSelect, MemberTable, Pagination, Modal,
+  watch: {
+    nowOptions: {
+      handler() {
+        this.index = 0;
+      },
+      deep: true,
+    },
   },
   methods: {
     updateCountry(val) {
@@ -133,6 +140,11 @@ export default {
     closeModal() {
       this.isShowModal = false;
       document.querySelector('body').style.overflow = '';
+    },
+    check() {
+      if (this.customIds.length <= this.index * this.parentSize) {
+        this.index -= 1;
+      }
     },
   },
 };

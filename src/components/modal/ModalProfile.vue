@@ -56,7 +56,7 @@ export default {
       radius: 0.1875rem;
     }
     padding: 15px;
-    width: 570px;
+    width: 470px;
     background: {
       color: #fff;
     }

@@ -11,6 +11,7 @@
 import MemberItem from '@/components/members/MemberItem.vue';
 
 export default {
+  inheritAttrs: false,
   name: 'member-list',
   components: {
     MemberItem,

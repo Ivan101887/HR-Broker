@@ -133,8 +133,18 @@
         </label>
       </form>
       <div class="buttons text-center">
-        <input type="submit" class="btn btn-peace" value="確定" @click="$emit('closeModal')"/>
-        <input type="submit" class="btn btn-cancel" value="取消" @click="$emit('closeModal')" />
+        <input
+          type="submit"
+          class="btn btn-peace"
+          value="確定"
+          @click="$emit('closeModal')"
+        />
+        <input
+          type="submit"
+          class="btn btn-cancel"
+          value="取消"
+          @click="$emit('closeModal')"
+        />
       </div>
     </div>
   </div>
@@ -205,7 +215,7 @@ export default {
       width: 0;
     }
     color: #fff;
-    &+&{
+    & + & {
       margin: {
         left: 5px;
       }
@@ -240,6 +250,12 @@ export default {
     width: 100%;
     font: {
       size: 15px;
+    }
+    border: {
+      width: 1px;
+      style: solid;
+      color: #ced4da;
+      radius: 3px;
     }
     padding: 10px;
     box-sizing: border-box;

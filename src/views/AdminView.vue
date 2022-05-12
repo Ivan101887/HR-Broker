@@ -6,17 +6,18 @@
         <FilterSelect
           :parent-data="parentCountry"
           parent-name="國家"
-          :parent-select="nowOptions.country"
           @update="updateCountry"
         />
         <FilterSelect
           :parent-data="parentGender"
           parent-name="性別"
-          :parent-select="nowOptions.gender"
           @update="updateGender"
         />
       </form>
-      <p class="number">共: {{ parentLen }} 人</p>
+      <p class="number">
+        <span v-if="isSelected">篩選結果 : {{ parentLen }} 人，</span>
+        <span> 共 : {{ parentTotalLen }} 人 </span>
+      </p>
     </div>
     <section class="main__body">
       <member-table
@@ -24,10 +25,11 @@
         :parent-data="parentListData[index]"
         :parent-index="modalIndex"
         @update="updateIndex"
+        v-bind="$attrs"
       />
     </section>
     <Pagination
-      v-if="parentListData.length"
+      v-if="parentListData.length > 1"
       :parent-len="parentListData.length"
       :parent-index="index"
       @update="updatePageIndex"
@@ -55,6 +57,8 @@ export default {
     parentCountry: Array,
     parentGender: Array,
     parentIndex: Number,
+    parentTotalLen: Number,
+    parentSize: Number,
   },
   data() {
     return {
@@ -62,12 +66,12 @@ export default {
         country: '',
         gender: '',
       },
+      isSelected: false,
       index: this.parentIndex,
       modalIndex: 0,
       isShowModal: false,
     };
   },
-
   components: {
     FilterSelect, MemberTable, Pagination, Modal,
   },
@@ -94,7 +98,13 @@ export default {
   watch: {
     nowOptions: {
       handler() {
-        this.$emit('update', this.nowOptions.country, this.nowOptions.gender);
+        if (this.nowOptions.country !== '' || this.nowOptions.gender !== '') {
+          this.isSelected = true;
+        } else {
+          this.isSelected = false;
+        }
+        this.index = 0;
+        this.$emit('update', this.nowOptions.country, this.nowOptions.gender, this.index);
       },
       deep: true,
     },

@@ -4,11 +4,19 @@
       <p class="test__email">帳號: reginald.gibson@example.com</p>
       <p class="test__pwd">密碼: 20202020</p>
     </div>
-    <logInBox @authenticate="setIsSuccess" />
-    <div class="loginStatus bg-success" v-if="isSuccess === true">登入成功</div>
-    <div class="loginStatus bg-danger" v-if="isSuccess === false">
-      帳號密碼有誤，請重新輸入
-    </div>
+    <dir>
+      <logInBox @authenticate="setIsSuccess" />
+      <div class="loginStatus bg-success" v-if="isSuccess === true">
+        登入成功
+      </div>
+      <div class="loginStatus bg-danger" v-if="isSuccess === false">
+        帳號密碼有誤，請重新輸入
+      </div>
+      <p class="copyright">
+        <font-awesome-icon icon="fa-regular fa-copyright" />
+        2021 Design By Away
+      </p>
+    </dir>
   </div>
 </template>
 <script>
@@ -42,9 +50,12 @@ export default {
     width: 100%;
     height: 100%;
     background: {
-      color: #fff;
+      color: #f5f5f5;
     }
     display: flex;
+    flex: {
+      wrap: wrap;
+    }
     justify-content: center;
     align-items: center;
   }
@@ -60,6 +71,13 @@ export default {
     top: 0;
     padding: 15px;
     color: #fff;
+  }
+  .copyright {
+    color: #999;
+    text-align: center;
+    margin: {
+      top: 50px;
+    }
   }
   .bg {
     &-danger {
