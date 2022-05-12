@@ -29,7 +29,6 @@
       />
     </section>
     <Pagination
-      v-if="parentListData.length > 1"
       :parent-len="parentListData.length"
       :parent-index="index"
       @update="updatePageIndex"

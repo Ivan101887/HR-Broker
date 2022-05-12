@@ -60,6 +60,7 @@
             <input
               type="radio"
               :checked="parentData.gender === 'male'"
+              name="gender"
               id="Gender"
             />Male
           </label>
@@ -67,6 +68,7 @@
             <input
               type="radio"
               :checked="parentData.gender === 'female'"
+              name="gender"
               id="Gender"
             />Female
           </label>

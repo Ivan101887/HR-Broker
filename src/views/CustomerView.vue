@@ -26,7 +26,6 @@
       />
     </section>
     <Pagination
-      v-if="selectedData.length > parentSize"
       :parent-len="sortData(selectedData).length"
       :parent-index="index"
       @update="updatePageIndex"
