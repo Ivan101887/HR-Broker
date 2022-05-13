@@ -4,6 +4,8 @@
       v-for="(item, index) in parentData"
       :key="index"
       :parent-data="item"
+      :parent-index="index"
+      v-on="$listeners"
     />
   </ul>
 </template>

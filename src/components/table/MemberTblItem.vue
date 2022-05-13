@@ -25,7 +25,7 @@
       {{ parentData.name.first }} {{ parentData.name.last }}
     </td>
     <td class="tbl__td text-ce p-10">{{ parentData.gender }}</td>
-    <td class="tbl__td text-ce p-10">{{ parentData.registered.age }}</td>
+    <td class="tbl__td text-ce p-10">{{ parentData.dob.age }}</td>
     <td class="tbl__td text-ce p-10">{{ parentData.location.country }}</td>
     <td class="tbl__td">{{ parentData.email }}</td>
     <td class="tbl__td p-10 text-ce">
@@ -53,14 +53,15 @@ export default {
   methods: {
     clickCheckBox(e) {
       const array = this.customList;
+      const user = 'c4f42e99-8b27-4115-a064-2f78987b9d47';
       if (e.target.checked) {
         array.push(this.parentData.login.uuid);
-        localStorage.setItem('users', JSON.stringify(array));
+        localStorage.setItem(user, JSON.stringify(array));
         this.$store.dispatch('setMember', array);
       } else {
         const i = array.indexOf(this.parentData.login.uuid);
         array.splice(i, 1);
-        localStorage.setItem('users', JSON.stringify(array));
+        localStorage.setItem(user, JSON.stringify(array));
         this.$store.dispatch('setMember', array);
         if (!this.customList.length) {
           if (this.$router.currentRoute.fullPath !== '/admin') {
@@ -73,10 +74,17 @@ export default {
       }
     },
     load() {
+      const target = document.cookie.split(';')
+        .find(
+          (item) => item.startsWith('c4f42e99-8b27-4115-a064-2f78987b9d47'),
+        )
+        .split('=');
       let users = [];
-      if (!localStorage.getItem('users')) return;
-      users = [...JSON.parse(localStorage.getItem('users'))];
-      this.$store.dispatch('setMember', users);
+      if (target[1]) {
+        if (!localStorage.getItem(target[0])) return;
+        users = [...JSON.parse(localStorage.getItem(target[0]))];
+        this.$store.dispatch('setMember', users);
+      }
     },
   },
   computed: {
@@ -109,8 +117,6 @@ export default {
     }
   }
   .input {
-    display: block;
-    width: 100px;
     margin: 0;
   }
   .text {

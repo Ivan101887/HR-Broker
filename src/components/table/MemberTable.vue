@@ -11,7 +11,6 @@
         <th class="tbl__th cell-ml">國籍</th>
         <th class="tbl__th cell-xxl">電子郵件</th>
         <th class="tbl__th">編輯</th>
-        <!-- 100 -->
       </tr>
     </thead>
     <tbody class="tbl__tbody">
@@ -81,16 +80,16 @@ export default {
       width: 5.5%;
     }
     &-sm {
-      width: 6.3%; //照片
+      width: 6.3%;
     }
     &-ms {
-      width: 8.75%; //編輯
+      width: 8.75%;
     }
     &md {
-      width: 9.15%; //
+      width: 9.15%;
     }
     &-ml {
-      width: 13.75%; //國籍
+      width: 13.75%;
     }
     &-lg {
       width: 14.1%;
@@ -99,7 +98,7 @@ export default {
       width: 15.4%;
     }
     &-xxl {
-      width: 18.75%; //電郵
+      width: 18.75%;
     }
   }
 </style>

@@ -49,8 +49,7 @@ export default {
   inheritAttrs: false,
   name: 'customer-view',
   props: {
-    parentAllData: Array,
-    parentSize: Number,
+    parentData: Array,
   },
   data() {
     return {
@@ -60,7 +59,7 @@ export default {
       },
       index: 0,
       modalIndex: 0,
-      isShowModal: false,
+      listSize: 10,
     };
   },
   components: {
@@ -69,10 +68,11 @@ export default {
   computed: {
     ...mapGetters({
       customIds: 'customList',
+      isShowModal: 'isShow',
     }),
     customList() {
       return this.customIds
-        .map((customItem) => this.parentAllData
+        .map((customItem) => this.parentData
           .find((item) => item.login.uuid === customItem));
     },
     countryArr() {
@@ -124,24 +124,24 @@ export default {
     sortData(array) {
       const arr = [];
       array.forEach((item, i) => {
-        if (i % this.parentSize === 0) {
+        if (i % this.listSize === 0) {
           arr.push([]);
         }
-        const index = Math.floor(i / this.parentSize);
+        const index = Math.floor(i / this.listSize);
         arr[index].push(item);
       });
       return arr;
     },
     updateIndex(val) {
       this.modalIndex = val;
-      this.isShowModal = true;
+      this.$store.dispatch('setIsShow', true);
     },
     closeModal() {
-      this.isShowModal = false;
+      this.$store.dispatch('setIsShow', false);
       document.querySelector('body').style.overflow = '';
     },
     check() {
-      if (this.customIds.length <= this.index * this.parentSize) {
+      if (this.customIds.length <= this.index * this.listSize) {
         this.index -= 1;
       }
     },

@@ -40,8 +40,7 @@ export default {
   methods: {
     clickLog(e) {
       if (this.isAuthenticated) {
-        document.cookie = 'isLogIn= ; expires = Thu, 01 Jan 1970 00:00:00 GMT';
-        localStorage.clear();
+        document.cookie = 'c4f42e99-8b27-4115-a064-2f78987b9d47=';
         if (this.$router.currentRoute.fullPath !== '/') {
           this.$router.replace('/');
         }

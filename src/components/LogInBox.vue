@@ -29,7 +29,7 @@
     </label>
     <div class="group">
       <button type="submit" @click="login" class="btn btn-peace">送出</button>
-      <button type="button" @click="clearInput" class="btn btn-outline">
+      <button type="reset" class="btn btn-outline">
         清除
       </button>
     </div>
@@ -57,7 +57,6 @@ export default {
       };
       const url = 'https://randomuser.me/api/';
       if (this.email !== '' && this.password !== '') {
-        console.log(888);
         try {
           const res = await this.$http.get(url, config);
           const results = await res.data.results[0];
@@ -74,13 +73,10 @@ export default {
         } catch (e) { console.log(e); }
       }
     },
-    clearInput() {
-      [this.email, this.password] = ['', ''];
-    },
     recordTime() {
       const now = new Date();
       const exp = new Date(now.setDate(now.getDate() + 1));
-      document.cookie = `isLogIn = true; expires = ${exp.toUTCString()}`;
+      document.cookie = `c4f42e99-8b27-4115-a064-2f78987b9d47 = true; expires = ${exp.toUTCString()}`;
     },
   },
 };

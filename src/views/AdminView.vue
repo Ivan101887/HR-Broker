@@ -4,39 +4,39 @@
     <div class="main__head">
       <form class="form">
         <FilterSelect
-          :parent-data="parentCountry"
+          :parent-data="countryArr"
           parent-name="國家"
           @update="updateCountry"
         />
         <FilterSelect
-          :parent-data="parentGender"
+          :parent-data="genArr"
           parent-name="性別"
           @update="updateGender"
         />
       </form>
       <p class="number">
-        <span v-if="isSelected">篩選結果 : {{ parentLen }} 人，</span>
-        <span> 共 : {{ parentTotalLen }} 人 </span>
+        <span v-if="isSelected">篩選結果 : {{ selectedData.length }} 人，</span>
+        <span> 共 : {{ parentData.length }} 人 </span>
       </p>
     </div>
     <section class="main__body">
       <member-table
         parent-name="自選清單"
-        :parent-data="parentListData[index]"
+        :parent-data="sortData(selectedData, listSize)[index]"
         :parent-index="modalIndex"
         @update="updateIndex"
         v-bind="$attrs"
       />
     </section>
     <Pagination
-      :parent-len="parentListData.length"
+      :parent-len="sortData(selectedData, listSize).length"
       :parent-index="index"
       @update="updatePageIndex"
     />
     <Modal
       v-if="isShowModal"
       :parent-index="1"
-      :parent-data="parentListData[index][modalIndex]"
+      :parent-data="sortData(selectedData, listSize)[index][modalIndex]"
       @closeModal="closeModal"
     />
   </main>
@@ -45,19 +45,14 @@
 import FilterSelect from '@/components/FilterSelect.vue';
 import Pagination from '@/components/Pagination.vue';
 import MemberTable from '@/components/table/MemberTable.vue';
+import { mapGetters } from 'vuex';
 import Modal from '../components/modal/Modal.vue';
 
 export default {
   inheritAttrs: false,
   name: 'admin-view',
   props: {
-    parentLen: Number,
-    parentListData: Array,
-    parentCountry: Array,
-    parentGender: Array,
-    parentIndex: Number,
-    parentTotalLen: Number,
-    parentSize: Number,
+    parentData: Array,
   },
   data() {
     return {
@@ -66,9 +61,9 @@ export default {
         gender: '',
       },
       isSelected: false,
-      index: this.parentIndex,
+      index: 0,
       modalIndex: 0,
-      isShowModal: false,
+      listSize: 10,
     };
   },
   components: {
@@ -83,15 +78,57 @@ export default {
     },
     updatePageIndex(val) {
       this.index = val;
-      this.$emit('updateIndex', this.index);
     },
     closeModal() {
-      this.isShowModal = false;
+      this.$store.dispatch('setIsShow', false);
       document.querySelector('body').style.overflow = '';
     },
     updateIndex(val) {
       this.modalIndex = val;
-      this.isShowModal = true;
+      this.$store.dispatch('setIsShow', true);
+    },
+    sortData(array, size) {
+      const arr = [];
+      array.forEach((item, i) => {
+        if (i % size === 0) {
+          arr.push([]);
+        }
+        const index = Math.floor(i / size);
+        arr[index].push(item);
+      });
+      return arr;
+    },
+  },
+  computed: {
+    ...mapGetters({
+      isShowModal: 'isShow',
+    }),
+    countryArr() {
+      return [...new Set(this.parentData.map((item) => item.location.country))];
+    },
+    genArr() {
+      return [...new Set(this.parentData.map((item) => item.gender))];
+    },
+    selectedData() {
+      if (this.nowOptions.country) {
+        if (this.nowOptions.gender) {
+          return this.parentData
+            .filter((item) => item.location.country === this.nowOptions.country)
+            .filter((item) => item.gender === this.nowOptions.gender);
+        }
+        return this.parentData
+          .filter((item) => item.location.country === this.nowOptions.country);
+      }
+      if (this.nowOptions.gender) {
+        if (this.nowOptions.country) {
+          return this.parentData
+            .filter((item) => item.location.country === this.nowOptions.country)
+            .filter((item) => item.gender === this.nowOptions.gender);
+        }
+        return this.data
+          .filter((item) => item.gender === this.nowOptions.gender);
+      }
+      return this.parentData;
     },
   },
   watch: {

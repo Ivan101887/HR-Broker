@@ -1,25 +1,12 @@
 <template>
   <div id="app">
     <TheHeader />
-    <router-view
-      :parent-all-data="data"
-      :parent-size="listSize"
-      :parent-data="sortData(selectedData, perPage)"
-      :parent-list-data="sortData(selectedData, listSize)"
-      :parent-len="selectedData.length"
-      :parent-total-len="data.length"
-      :parent-country="countryArr"
-      :parent-gender="genArr"
-      :parent-index="index"
-      @update="updateNow"
-      @updateIndex="updateIndex"
-    >
-    </router-view>
-
-    <the-loader v-if="isLoading" />
+    <router-view :parent-data="data"> </router-view>
+    <the-loader v-if="isShowLoading" />
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import TheHeader from '@/components/TheHeader.vue';
 import TheLoader from '@/components/TheLoader.vue';
 
@@ -30,53 +17,20 @@ export default {
     TheLoader,
   },
   async created() {
+    this.$store.dispatch('setIsShow', true);
     await this.getData();
-    this.isLoading = false;
+    this.$store.dispatch('setIsShow', false);
     document.querySelector('body').style.overflow = '';
   },
   data() {
     return {
-      isLogIn: false,
-      isLoading: true,
-      isShow: false,
       data: [],
-      index: 0,
-      perPage: 20,
-      listSize: 10,
-      now: {
-        country: '',
-        gender: '',
-      },
     };
   },
   computed: {
-    countryArr() {
-      return [...new Set(this.data.map((item) => item.location.country))];
-    },
-    genArr() {
-      return [...new Set(this.data.map((item) => item.gender))];
-    },
-    selectedData() {
-      if (this.now.country) {
-        if (this.now.gender) {
-          return this.data
-            .filter((item) => item.location.country === this.now.country)
-            .filter((item) => item.gender === this.now.gender);
-        }
-        return this.data
-          .filter((item) => item.location.country === this.now.country);
-      }
-      if (this.now.gender) {
-        if (this.now.country) {
-          return this.data
-            .filter((item) => item.location.country === this.now.country)
-            .filter((item) => item.gender === this.now.gender);
-        }
-        return this.data
-          .filter((item) => item.gender === this.now.gender);
-      }
-      return this.data;
-    },
+    ...mapGetters({
+      isShowLoading: 'isShow',
+    }),
   },
   methods: {
     async getData() {
@@ -94,24 +48,6 @@ export default {
       } catch (e) {
         console.log(e);
       }
-    },
-    updateIndex(val) {
-      this.index = val;
-    },
-    sortData(array, size) {
-      const arr = [];
-      array.forEach((item, i) => {
-        if (i % size === 0) {
-          arr.push([]);
-        }
-        const index = Math.floor(i / size);
-        arr[index].push(item);
-      });
-      return arr;
-    },
-    updateNow(country, gender, index) {
-      this.now = { country, gender };
-      this.index = index;
     },
   },
 };

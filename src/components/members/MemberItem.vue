@@ -1,8 +1,8 @@
 <template>
   <li
     class="memberItem"
-    @click="isShowModal = true"
-    @keyup="isShowModal = true"
+    @click="$emit('update', parentIndex)"
+    @keyup="$emit('update', parentIndex)"
   >
     <figure class="memberItem__imgCntr">
       <img
@@ -30,35 +30,20 @@
       <p class="memberItem__ctr">{{ parentData.location.country }}</p>
       <p class="memberItem__city">{{ parentData.location.city }}</p>
     </div>
-    <Modal
-      v-if="isShowModal"
-      :parent-index="0"
-      :parent-data="parentData"
-      @closeModal="closeModal"
-    />
   </li>
 </template>
 <script>
-import Modal from '../modal/Modal.vue';
 
 export default {
   name: 'member-item',
   props: {
     parentData: Object,
+    parentIndex: Number,
   },
   data() {
     return {
       isShowModal: false,
     };
-  },
-  components: {
-    Modal,
-  },
-  methods: {
-    closeModal() {
-      this.isShowModal = false;
-      document.querySelector('body').style.overflow = '';
-    },
   },
 };
 </script>
