@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  strict: true,
   state: {
     customList: [],
     isAuthenticated: !!document.cookie.split(';').find((item) => item.startsWith('c4f42e99-8b27-4115-a064-2f78987b9d47')).split('=')[1],

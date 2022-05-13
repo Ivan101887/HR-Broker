@@ -125,7 +125,7 @@ export default {
             .filter((item) => item.location.country === this.nowOptions.country)
             .filter((item) => item.gender === this.nowOptions.gender);
         }
-        return this.data
+        return this.parentData
           .filter((item) => item.gender === this.nowOptions.gender);
       }
       return this.parentData;
@@ -134,13 +134,7 @@ export default {
   watch: {
     nowOptions: {
       handler() {
-        if (this.nowOptions.country !== '' || this.nowOptions.gender !== '') {
-          this.isSelected = true;
-        } else {
-          this.isSelected = false;
-        }
         this.index = 0;
-        this.$emit('update', this.nowOptions.country, this.nowOptions.gender, this.index);
       },
       deep: true,
     },

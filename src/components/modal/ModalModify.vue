@@ -18,7 +18,7 @@
         </label>
       </div>
       <form class="form">
-        <label for="firstName" class="label label-sm">
+        <label for="FirstName" class="label label-sm">
           First Name<br />
           <input
             type="text"
@@ -27,31 +27,31 @@
             id="FirstName"
           />
         </label>
-        <label for="firstName" class="label label-sm">
+        <label for="LastName" class="label label-sm">
           Last Name<br />
           <input
             type="text"
             :value="parentData.name.last"
             class="input"
-            id="FirstName"
+            id="LastName"
           />
         </label>
-        <label for="firstName" class="label label-lg">
+        <label for="Birth" class="label label-lg">
           Birth<br />
           <input
             type="text"
             :value="parentData.dob.date"
             class="input"
-            id="FirstName"
+            id="Birth"
           />
         </label>
-        <label for="firstName" class="label label-sm">
+        <label for="Email" class="label label-sm">
           E-mail<br />
           <input
             type="text"
             :value="parentData.email"
             class="input"
-            id="FirstName"
+            id="Email"
           />
         </label>
         <form class="label label-sm">
@@ -61,7 +61,7 @@
               type="radio"
               :checked="parentData.gender === 'male'"
               name="gender"
-              id="Gender"
+              id="Male"
             />Male
           </label>
           <label for="Female" class="radio">
@@ -69,68 +69,68 @@
               type="radio"
               :checked="parentData.gender === 'female'"
               name="gender"
-              id="Gender"
+              id="Female"
             />Female
           </label>
         </form>
-        <label for="firstName" class="label label-sm">
+        <label for="Country" class="label label-sm">
           Country<br />
           <input
             type="text"
             :value="parentData.location.country"
             class="input"
-            id="FirstName"
+            id="Country"
           />
         </label>
-        <label for="firstName" class="label label-sm">
+        <label for="State" class="label label-sm">
           State<br />
           <input
             type="text"
             :value="parentData.location.state"
             class="input"
-            id="FirstName"
+            id="State"
           />
         </label>
-        <label for="firstName" class="label label-sm">
+        <label for="City" class="label label-sm">
           City<br />
           <input
             type="text"
             :value="parentData.location.city"
             class="input"
-            id="FirstName"
+            id="City"
           />
         </label>
-        <label for="firstName" class="label label-sm">
+        <label for="Street" class="label label-sm">
           Street<br />
           <input
             type="text"
             :value="parentData.location.street.name"
             class="input"
-            id="FirstName"
+            id="Street"
           />
         </label>
-        <label for="firstName" class="label label-sm">
+        <label for="Number" class="label label-sm">
           Number<br />
           <input
             type="text"
             :value="parentData.location.street.number"
             class="input"
-            id="FirstName"
+            id="Number"
           />
         </label>
-        <label for="firstName" class="label label-lg">
+        <label for="Coordinate" class="label label-lg">
           Coordinate<br />
           <input
             type="text"
             :value="parentData.location.coordinates.latitude"
             class="input input-sm mr-15"
-            id="FirstName"
+            id="Coordinate"
           />
           <input
             type="text"
             :value="parentData.location.coordinates.longitude"
             class="input input-sm ml-15"
-            id="FirstName"
+            id="Coordinate"
           />
         </label>
       </form>
@@ -203,6 +203,11 @@ export default {
   }
   .uploader {
     width: 25%;
+  }
+  .selectImg {
+    margin : {
+      top: 15px;
+    }
   }
   .form {
     width: 75%;

@@ -16,7 +16,7 @@
     <tbody class="tbl__tbody">
       <member-tbl-item
         v-for="(item, i) in parentData"
-        :key="item.id.value"
+        :key="item.login.salt"
         :class="{ 'bg-cancel': i % 2 === 0 }"
         :parent-data="item"
         :parent-index="i"

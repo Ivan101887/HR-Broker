@@ -23,7 +23,7 @@
 import { mapGetters } from 'vuex';
 import Pagination from '@/components/Pagination.vue';
 import Modal from '@/components/modal/Modal.vue';
-import MemberList from '../components/members/MemberList.vue';
+import MemberList from '@/components/members/MemberList.vue';
 
 export default {
   inheritAttrs: false,
