@@ -134,6 +134,11 @@ export default {
   watch: {
     nowOptions: {
       handler() {
+        if (this.nowOptions.country !== '' || this.nowOptions.gender !== '') {
+          this.isSelected = true;
+        } else {
+          this.isSelected = false;
+        }
         this.index = 0;
       },
       deep: true,

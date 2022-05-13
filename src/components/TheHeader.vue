@@ -82,16 +82,18 @@ export default {
     text-align: right;
   }
   .nav {
-    text-align: center;
     &__link {
       font: {
         size: 15px;
       }
       color: #999;
       text-decoration: none;
-      & + & {
-        margin: {
-          left: 15px;
+      margin : {
+        right: 15px;
+      }
+      &:first-of-type {
+        margin : {
+          left: -60px;
         }
       }
     }
