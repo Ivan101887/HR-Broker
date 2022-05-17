@@ -4,10 +4,9 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  strict: true,
   state: {
     customList: [],
-    isAuthenticated: !!document.cookie.split(';').find((item) => item.startsWith('c4f42e99-8b27-4115-a064-2f78987b9d47')).split('=')[1],
+    isAuthenticated: false,
     isShow: false,
   },
   getters: {
@@ -16,6 +15,9 @@ export default new Vuex.Store({
     isShow: (state) => state.isShow,
   },
   mutations: {
+    SET_AUTHENTICATED(state, Boolean) {
+      state.isAuthenticated = Boolean;
+    },
     SET_MEMBER(state, arr) {
       state.customList = [...new Set(state.customList.concat(...arr))];
     },
@@ -24,13 +26,14 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    setAuthenticated(context, Boolean) {
+      context.commit('SET_AUTHENTICATED', Boolean);
+    },
     setMember(context, arr) {
       context.commit('SET_MEMBER', arr);
     },
     setIsShow(context, Boolean) {
       context.commit('SET_IS_SHOW', Boolean);
     },
-  },
-  modules: {
   },
 });

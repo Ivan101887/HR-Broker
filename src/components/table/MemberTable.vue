@@ -32,9 +32,9 @@ export default {
   inheritAttrs: false,
   components: { MemberTblItem },
   name: 'member-table',
+  inject: ['parentName'],
   props: {
     parentData: Array,
-    parentName: String,
   },
 };
 </script>

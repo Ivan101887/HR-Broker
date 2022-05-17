@@ -29,9 +29,7 @@
     </label>
     <div class="group">
       <button type="submit" @click="login" class="btn btn-peace">送出</button>
-      <button type="reset" class="btn btn-outline">
-        清除
-      </button>
+      <button type="reset" class="btn btn-outline">清除</button>
     </div>
   </form>
 </template>
@@ -61,12 +59,12 @@ export default {
           const res = await this.$http.get(url, config);
           const results = await res.data.results[0];
           if (this.email === results.email && this.password === results.login.password) {
+            this.$store.dispatch('setAuthenticated', true);
             this.$emit('authenticate', true);
             this.recordTime();
             setTimeout(() => {
-              this.$router.replace('/');
+              this.$router.replace('/admin');
             }, 2000);
-            window.location.reload(true);
           } else {
             this.$emit('authenticate', false);
           }

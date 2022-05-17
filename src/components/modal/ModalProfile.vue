@@ -16,34 +16,27 @@
       <p class="memberInfo__phone">{{ parentData.phone }}</p>
       <p class="memberInfo__age">{{ parentData.dob.age }}</p>
     </section>
-    <iframe
-      class="memberInfo__map"
-      title="random user's location"
-      frameborder="0"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      :src="getMapUrl()"
-    >
-    </iframe>
+    <Map class="memberInfo__map" :parent-data="parentData" />
+    <!-- // <iframe
+    //   class="memberInfo__map"
+    //   title="random user's location"
+    //   frameborder="0"
+    //   loading="lazy"
+    //   referrerpolicy="no-referrer-when-downgrade"
+    //   :src="getMapUrl()"
+    // >
+    // </iframe> -->
   </div>
 </template>
 <script>
+import Map from '@/components/Map.vue';
+
 export default {
   name: 'modal-profile',
   props: {
     parentData: Object,
   },
-  methods: {
-    getMapUrl() {
-      const { coordinates } = this.parentData.location;
-      const config = {
-        key: 'AIzaSyDaVSgNX4hqTrPNcyAVk54qElOws6poXnE',
-        lat: coordinates.latitude,
-        lon: coordinates.longitude,
-      };
-      return `https://www.google.com/maps/embed/v1/place?key=${config.key}&zoom=10&center=${config.lat},${config.lon}&q=${config.lat},${config.lon}`;
-    },
-  },
+  components: { Map },
 };
 </script>
 <style lang="scss" scoped>
@@ -86,8 +79,6 @@ export default {
       margin: {
         top: 15px;
       }
-      width: 100%;
-      height: 280px;
     }
   }
 </style>

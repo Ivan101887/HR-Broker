@@ -43,7 +43,9 @@ export default {
   methods: {
     clickLog(e) {
       if (this.isAuthenticated) {
-        document.cookie = 'c4f42e99-8b27-4115-a064-2f78987b9d47=';
+        this.$store.dispatch('setAuthenticated', false);
+        document.cookie = 'c4f42e99-8b27-4115-a064-2f78987b9d47 = false;expires=Thu, 01 Jan 1970 00:00:00 UTC';
+        this.$router.replace('/');
         if (this.$router.currentRoute.fullPath !== '/') {
           this.$router.replace('/');
         }
@@ -52,16 +54,18 @@ export default {
       }
     },
     load() {
-      const target = document.cookie.split(';')
-        .find(
-          (item) => item.startsWith('c4f42e99-8b27-4115-a064-2f78987b9d47'),
-        )
-        .split('=');
-      let users = [];
-      if (target[1]) {
-        if (!localStorage.getItem(target[0])) return;
-        users = [...JSON.parse(localStorage.getItem(target[0]))];
-        this.$store.dispatch('setMember', users);
+      if (document.cookie) {
+        const target = document.cookie.split(';')
+          .find(
+            (item) => item.startsWith('c4f42e99-8b27-4115-a064-2f78987b9d47'),
+          )
+          .split('=');
+        let users = [];
+        if (target[1]) {
+          if (!localStorage.getItem(target[0])) return;
+          users = [...JSON.parse(localStorage.getItem(target[0]))];
+          this.$store.dispatch('setMember', users);
+        }
       }
     },
   },

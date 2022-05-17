@@ -2,8 +2,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import store from '@/store/index';
+import axios from 'axios';
+import vueAxios from 'vue-axios';
 
-Vue.use(VueRouter);
+Vue.use(VueRouter, vueAxios, axios);
 
 const routes = [
   {
@@ -15,14 +17,6 @@ const routes = [
     path: '/admin',
     name: 'admin',
     meta: { requiresAuth: true },
-    beforeEnter: async (to, from, next) => {
-      const { isAuthenticated } = store.getters;
-      if (!isAuthenticated) {
-        next('/login');
-      } else {
-        next();
-      }
-    },
     component: () => import('@/views/AdminView.vue'),
   },
   {
@@ -30,13 +24,7 @@ const routes = [
     name: 'customer',
     meta: { requiresAuth: true },
     beforeEnter: (to, from, next) => {
-      const { isAuthenticated } = store.getters;
       const { customList } = store.getters;
-      if (!isAuthenticated) {
-        next('/login');
-      } else {
-        next();
-      }
       if (!customList.length) {
         next('/admin');
       } else {
@@ -48,14 +36,6 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    beforeEnter: (to, from, next) => {
-      const { isAuthenticated } = store.getters;
-      if (isAuthenticated) {
-        next('/admin');
-      } else {
-        next();
-      }
-    },
     component: () => import('@/views/LogInView.vue'),
   },
   {
@@ -69,5 +49,48 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const config = {
+      params: {
+        results: 1,
+        seed: 'myRandomUser',
+        inc: 'login,email',
+      },
+    };
+    const url = 'https://randomuser.me/api/';
+    if (document.cookie) {
+      try {
+        const res = await Vue.$http.get(url, config);
+        const results = res.data.results[0];
+        const token = results.login.uuid;
+        const target = document.cookie.split(';')
+          .find(
+            (item) => item.startsWith('c4f42e99-8b27-4115-a064-2f78987b9d47'),
+          )
+          .split('=');
+        if (token === target[0]) {
+          next();
+        } else {
+          store.dispatch('setAuthenticated', false);
+          document.cookie = 'c4f42e99-8b27-4115-a064-2f78987b9d47 = false; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+          next('/login');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      next('/login');
+    }
+  } else if (to.name === 'login') {
+    const { isAuthenticated } = store.getters;
+    if (isAuthenticated) {
+      next('/admin');
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 export default router;

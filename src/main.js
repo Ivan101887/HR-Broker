@@ -5,6 +5,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPerson, faPersonDress } from '@fortawesome/free-solid-svg-icons';
 import { faCopyright } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import * as VueGoogleMaps from 'vue2-google-maps';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -14,6 +15,14 @@ import '@/assets/scss/helper.scss';
 
 library.add(faCopyright, faPersonDress, faPerson);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDaVSgNX4hqTrPNcyAVk54qElOws6poXnE',
+    library: 'places',
+  },
+  installComponent: true,
+});
 
 Vue.use(vueAxios, axios);
 new Vue({

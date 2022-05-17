@@ -12,8 +12,8 @@
     />
     <Modal
       v-if="isShowModal"
-      :parent-index="0"
-      :parent-data="sortData(parentData, 20)[index][modalIndex]"
+      :parent-type="0"
+      :parent-data="sortData(parentData, perPage)[index][modalIndex]"
       @closeModal="closeModal"
     />
   </main>
@@ -36,6 +36,7 @@ export default {
       index: 0,
       perPage: 20,
       modalIndex: 0,
+      isShowModal: false,
     };
   },
   components: {
@@ -43,8 +44,13 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isShowModal: 'isShow',
+      isShow: 'isShow',
     }),
+  },
+  watch: {
+    isShow() {
+      this.isShowModal = this.isShow;
+    },
   },
   methods: {
     updatePageIndex(val) {

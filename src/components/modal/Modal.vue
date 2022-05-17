@@ -17,7 +17,7 @@ export default {
   inheritAttrs: false,
   name: 'modal',
   props: {
-    parentIndex: Number,
+    parentType: Number,
   },
   components: {
     ModalModify,
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     switchCurrComponent() {
-      return this.currComponent[this.parentIndex];
+      return this.currComponent[this.parentType];
     },
   },
 };
