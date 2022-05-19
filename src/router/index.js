@@ -64,16 +64,11 @@ router.beforeEach(async (to, from, next) => {
         const res = await Vue.$http.get(url, config);
         const results = res.data.results[0];
         const token = results.login.uuid;
-        const target = document.cookie.split(';')
-          .find(
-            (item) => item.startsWith('c4f42e99-8b27-4115-a064-2f78987b9d47'),
-          )
-          .split('=');
-        if (token === target[0]) {
+        if (document.cookie.includes(token)) {
           next();
         } else {
           store.dispatch('setAuthenticated', false);
-          document.cookie = 'c4f42e99-8b27-4115-a064-2f78987b9d47 = false; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+          document.cookie = 'logIn = c4f42e99-8b27-4115-a064-2f78987b9d47 ; expires=Thu, 01 Jan 1970 00:00:00 UTC';
           next('/login');
         }
       } catch (err) {

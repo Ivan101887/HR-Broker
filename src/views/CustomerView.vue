@@ -8,8 +8,6 @@ export default {
   data() {
     return {
       title: '自選清單',
-      total: 0,
-      data: [],
     };
   },
   provide() {
@@ -17,19 +15,19 @@ export default {
       parentName: '已加入',
     };
   },
-  created() {
-    this.data = this.customList;
-    this.total = this.customList.length;
-  },
   computed: {
+    data() {
+      let arr = [];
+      if (this.parentData.length > 0) {
+        arr = this.customIds.map((customItem) => this.parentData
+          .find((item) => item.login.uuid === customItem));
+      }
+      return arr;
+    },
     ...mapGetters({
       customIds: 'customList',
     }),
-    customList() {
-      return this.customIds
-        .map((customItem) => this.parentData
-          .find((item) => item.login.uuid === customItem));
-    },
+
   },
   watch: {
     nowOptions: {
@@ -37,10 +35,6 @@ export default {
         this.index = 0;
       },
       deep: true,
-    },
-    customList() {
-      this.data = this.customList;
-      this.total = this.customList.length;
     },
   },
   methods: {

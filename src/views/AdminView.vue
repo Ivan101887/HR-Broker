@@ -16,7 +16,7 @@
       </form>
       <p class="number">
         <span v-if="isSelected">篩選結果 : {{ selectedData.length }} 人，</span>
-        <span> 共 : {{ total }} 人 </span>
+        <span> 共 : {{ data.length }} 人 </span>
       </p>
     </div>
     <section class="main__body">
@@ -62,12 +62,10 @@ export default {
   data() {
     return {
       title: '會員列表',
-      total: this.parentData.length,
       nowOptions: {
         country: '',
         gender: '',
       },
-      data: this.parentData,
       isSelected: false,
       index: 0,
       modalIndex: 0,
@@ -109,6 +107,9 @@ export default {
     },
   },
   computed: {
+    data() {
+      return this.parentData;
+    },
     ...mapGetters({
       isShow: 'isShow',
     }),

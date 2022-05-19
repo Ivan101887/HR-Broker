@@ -74,7 +74,7 @@ export default {
     recordTime() {
       const now = new Date();
       const exp = new Date(now.setDate(now.getDate() + 1));
-      document.cookie = `c4f42e99-8b27-4115-a064-2f78987b9d47 = true; expires = ${exp.toUTCString()}`;
+      document.cookie = `logIn = c4f42e99-8b27-4115-a064-2f78987b9d47 ; expires = ${exp.toUTCString()}`;
     },
   },
 };
