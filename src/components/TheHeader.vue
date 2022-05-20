@@ -37,29 +37,15 @@ export default {
       customList: 'customList',
     }),
   },
-  created() {
-    this.load();
-  },
   methods: {
     clickLog(e) {
       if (this.isAuthenticated) {
         this.$store.dispatch('setAuthenticated', false);
-        document.cookie = 'logIn = c4f42e99-8b27-4115-a064-2f78987b9d47 ;expires=Thu, 01 Jan 1970 00:00:00 UTC';
+        document.cookie = 'logIn = ;expires=Thu, 01 Jan 1970 00:00:00 UTC';
         if (this.$router.currentRoute.fullPath !== '/') {
           this.$router.replace('/');
         }
         e.preventDefault();
-      }
-    },
-    load() {
-      if (document.cookie) {
-        let users = [];
-        const id = 'c4f42e99-8b27-4115-a064-2f78987b9d47';
-        if (document.cookie.includes(id)) {
-          if (!localStorage.getItem(id)) return;
-          users = [...JSON.parse(localStorage.getItem(id))];
-          this.$store.dispatch('setMember', users);
-        }
       }
     },
   },

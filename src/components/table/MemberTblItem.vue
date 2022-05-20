@@ -47,21 +47,17 @@ export default {
     parentData: Object,
     parentIndex: Number,
   },
-  created() {
-    this.load();
-  },
   methods: {
     clickCheckBox(e) {
       const array = this.customList;
-      const user = 'c4f42e99-8b27-4115-a064-2f78987b9d47';
       if (e.target.checked) {
         array.push(this.parentData.login.uuid);
-        localStorage.setItem(user, JSON.stringify(array));
+        localStorage.setItem('user', JSON.stringify(array));
         this.$store.dispatch('setMember', array);
       } else {
         const i = array.indexOf(this.parentData.login.uuid);
         array.splice(i, 1);
-        localStorage.setItem(user, JSON.stringify(array));
+        localStorage.setItem('user', JSON.stringify(array));
         this.$store.dispatch('setMember', array);
         if (!this.customList.length) {
           if (this.$router.currentRoute.fullPath !== '/admin') {
@@ -70,17 +66,6 @@ export default {
         }
         if (this.$router.currentRoute.fullPath !== '/admin') {
           this.$emit('checkPage');
-        }
-      }
-    },
-    load() {
-      if (document.cookie) {
-        let users = [];
-        const id = 'c4f42e99-8b27-4115-a064-2f78987b9d47';
-        if (document.cookie.includes(id)) {
-          if (!localStorage.getItem(id)) return;
-          users = [...JSON.parse(localStorage.getItem(id))];
-          this.$store.dispatch('setMember', users);
         }
       }
     },

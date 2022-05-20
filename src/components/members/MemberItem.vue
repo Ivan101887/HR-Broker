@@ -47,7 +47,6 @@ export default {
   },
 };
 </script>
-    Modal
 <style lang="scss" scoped>
   .memberItem {
     padding: 15px;

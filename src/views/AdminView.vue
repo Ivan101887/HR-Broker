@@ -15,7 +15,9 @@
         />
       </form>
       <p class="number">
-        <span v-if="isSelected">篩選結果 : {{ selectedData.length }} 人，</span>
+        <span v-if="nowOptions.country || nowOptions.gender">
+          篩選結果 : {{ selectedData.length }} 人，
+        </span>
         <span> 共 : {{ data.length }} 人 </span>
       </p>
     </div>
@@ -66,7 +68,6 @@ export default {
         country: '',
         gender: '',
       },
-      isSelected: false,
       index: 0,
       modalIndex: 0,
       listSize: 10,
@@ -120,21 +121,16 @@ export default {
       return [...new Set(this.data.map((item) => item.gender))];
     },
     selectedData() {
+      if (this.nowOptions.country && this.nowOptions.gender) {
+        return this.data
+          .filter((item) => item.location.country === this.nowOptions.country)
+          .filter((item) => item.gender === this.nowOptions.gender);
+      }
       if (this.nowOptions.country) {
-        if (this.nowOptions.gender) {
-          return this.data
-            .filter((item) => item.location.country === this.nowOptions.country)
-            .filter((item) => item.gender === this.nowOptions.gender);
-        }
         return this.data
           .filter((item) => item.location.country === this.nowOptions.country);
       }
       if (this.nowOptions.gender) {
-        if (this.nowOptions.country) {
-          return this.data
-            .filter((item) => item.location.country === this.nowOptions.country)
-            .filter((item) => item.gender === this.nowOptions.gender);
-        }
         return this.data
           .filter((item) => item.gender === this.nowOptions.gender);
       }
@@ -147,11 +143,6 @@ export default {
     },
     nowOptions: {
       handler() {
-        if (this.nowOptions.country !== '' || this.nowOptions.gender !== '') {
-          this.isSelected = true;
-        } else {
-          this.isSelected = false;
-        }
         this.index = 0;
       },
       deep: true,

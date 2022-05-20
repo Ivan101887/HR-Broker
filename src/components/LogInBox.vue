@@ -58,10 +58,11 @@ export default {
         try {
           const res = await this.$http.get(url, config);
           const results = await res.data.results[0];
+          const id = await results.login.uuid;
           if (this.email === results.email && this.password === results.login.password) {
             this.$store.dispatch('setAuthenticated', true);
             this.$emit('authenticate', true);
-            this.recordTime();
+            this.recordTime(id);
             setTimeout(() => {
               this.$router.replace('/admin');
             }, 2000);
@@ -71,10 +72,10 @@ export default {
         } catch (e) { console.log(e); }
       }
     },
-    recordTime() {
+    recordTime(id) {
       const now = new Date();
       const exp = new Date(now.setDate(now.getDate() + 1));
-      document.cookie = `logIn = c4f42e99-8b27-4115-a064-2f78987b9d47 ; expires = ${exp.toUTCString()}`;
+      document.cookie = `logIn = ${id} ; expires = ${exp.toUTCString()}`;
     },
   },
 };

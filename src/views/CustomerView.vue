@@ -27,15 +27,6 @@ export default {
     ...mapGetters({
       customIds: 'customList',
     }),
-
-  },
-  watch: {
-    nowOptions: {
-      handler() {
-        this.index = 0;
-      },
-      deep: true,
-    },
   },
   methods: {
     check() {

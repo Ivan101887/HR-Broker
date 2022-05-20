@@ -68,7 +68,7 @@ router.beforeEach(async (to, from, next) => {
           next();
         } else {
           store.dispatch('setAuthenticated', false);
-          document.cookie = 'logIn = c4f42e99-8b27-4115-a064-2f78987b9d47 ; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+          document.cookie = 'logIn = ; expires=Thu, 01 Jan 1970 00:00:00 UTC';
           next('/login');
         }
       } catch (err) {
