@@ -28,14 +28,5 @@ export default {
       customIds: 'customList',
     }),
   },
-  methods: {
-    check() {
-      document.querySelector('#MemberTable').addEventListener('checkPage', () => {
-        if (this.customIds.length <= this.index * this.listSize) {
-          this.index -= 1;
-        }
-      });
-    },
-  },
 };
 </script>

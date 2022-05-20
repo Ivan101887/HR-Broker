@@ -27,6 +27,7 @@
         :parent-data="sortData(selectedData, listSize)[index]"
         :parent-index="modalIndex"
         @update="updateIndex"
+        @checkPage="check"
         v-bind="$attrs"
       />
     </section>
@@ -105,6 +106,11 @@ export default {
         arr[index].push(item);
       });
       return arr;
+    },
+    check() {
+      if (this.data.length <= this.index * this.listSize) {
+        this.index -= 1;
+      }
     },
   },
   computed: {
